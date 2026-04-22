@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html lang="ja" data-lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ISEKAI — Server Whitepaper</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Shippori+Mincho:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ======================================================
+   ISEKAI Whitepaper — Stylesheet
+   Theme: Norse myth · warm hearth · friendly hall
+   ====================================================== */
+
+:root {
+  /* Palette — deep night sky over a hearth-warm hall */
+  --ink:           #0e1620;   /* deep night */
+  --ink-soft:      #1a2330;
+  --parchment:     #f4ead5;   /* warm parchment */
+  --parchment-2:   #ebdfc4;
+  --vellum:        #e2d2ad;
+  --gold:          #c9a24a;   /* hearth gold */
+  --gold-deep:     #a47e2e;
+  --gold-light:    #e8c97a;
+  --ember:         #d96d3a;   /* friendly ember */
+  --moss:          #6b8e5a;   /* forest moss */
+  --rune-blue:     #4a6b8a;
+  --crimson:       #8b3a3a;   /* important / warning */
+  
+  --shadow-warm:   0 4px 20px rgba(164, 126, 46, 0.15);
+  --shadow-deep:   0 12px 40px rgba(14, 22, 32, 0.4);
+  
+  --font-display:  'Cinzel', 'Shippori Mincho', serif;
+  --font-display-ja: 'Shippori Mincho', 'Cinzel', serif;
+  --font-body:     'Cormorant Garamond', 'Shippori Mincho', serif;
+  --font-body-ja:  'Shippori Mincho', 'Cormorant Garamond', serif;
+  --font-mono:     'JetBrains Mono', monospace;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--ink);
+  color: var(--parchment);
+  font-family: var(--font-body-ja);
+  font-size: 17px;
+  line-height: 1.85;
+  min-height: 100vh;
+  overflow-x: hidden;
+  position: relative;
+}
+
+html[data-lang="en"] body {
+  font-family: var(--font-body);
+}
+
+/* --- Atmospheric background: aurora over fjord --- */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 50% at 20% 10%, rgba(74, 107, 138, 0.25), transparent 60%),
+    radial-gradient(ellipse 60% 40% at 80% 30%, rgba(107, 142, 90, 0.15), transparent 60%),
+    radial-gradient(ellipse 100% 60% at 50% 100%, rgba(201, 162, 74, 0.08), transparent 70%),
+    linear-gradient(180deg, #0a1018 0%, #0e1620 40%, #131c28 100%);
+  z-index: -2;
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.95 0 0 0 0 0.85 0 0 0 0 0.6 0 0 0 0.04 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+/* --- Floating rune particles --- */
+.rune-particle {
+  position: fixed;
+  font-family: serif;
+  color: var(--gold);
+  opacity: 0.06;
+  pointer-events: none;
+  z-index: -1;
+  user-select: none;
+  animation: drift 60s linear infinite;
+}
+
+@keyframes drift {
+  0%   { transform: translateY(100vh) rotate(0deg); }
+  100% { transform: translateY(-20vh) rotate(360deg); }
+}
+
+/* ======================================================
+   TOP BAR — language toggle, version
+   ====================================================== */
+.topbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 32px;
+  background: linear-gradient(180deg, rgba(14,22,32,0.95) 0%, rgba(14,22,32,0.7) 70%, transparent);
+  backdrop-filter: blur(8px);
+}
+
+.topbar__brand {
+  font-family: var(--font-display);
+  letter-spacing: 0.4em;
+  font-size: 13px;
+  color: var(--gold);
+  font-weight: 600;
+}
+
+.topbar__brand::before {
+  content: '◈ ';
+  color: var(--gold-deep);
+}
+
+.lang-toggle {
+  background: transparent;
+  border: 1px solid var(--gold-deep);
+  color: var(--gold-light);
+  padding: 8px 18px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.15em;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border-radius: 2px;
+}
+
+.lang-toggle:hover {
+  background: var(--gold);
+  color: var(--ink);
+  box-shadow: 0 0 20px rgba(201, 162, 74, 0.4);
+}
+
+/* ======================================================
+   HERO
+   ====================================================== */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 120px 32px 80px;
+  text-align: center;
+  position: relative;
+}
+
+.hero__rune-frame {
+  font-family: serif;
+  color: var(--gold);
+  font-size: 18px;
+  letter-spacing: 0.8em;
+  margin-bottom: 32px;
+  opacity: 0;
+  animation: fadeUp 1.2s ease 0.2s forwards;
+}
+
+.hero__eyebrow {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.5em;
+  color: var(--gold);
+  text-transform: uppercase;
+  margin-bottom: 28px;
+  opacity: 0;
+  animation: fadeUp 1.2s ease 0.4s forwards;
+}
+
+.hero__server-name {
+  font-family: var(--font-display);
+  font-size: clamp(72px, 14vw, 180px);
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  color: var(--parchment);
+  line-height: 1;
+  margin-bottom: 24px;
+  opacity: 0;
+  animation: fadeUp 1.4s ease 0.6s forwards;
+  background: linear-gradient(180deg, var(--parchment) 0%, var(--vellum) 50%, var(--gold) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 4px 30px rgba(201, 162, 74, 0.2);
+}
+
+.hero__title {
+  font-family: var(--font-display-ja);
+  font-size: clamp(20px, 3vw, 32px);
+  font-weight: 500;
+  letter-spacing: 0.3em;
+  color: var(--vellum);
+  margin-bottom: 40px;
+  opacity: 0;
+  animation: fadeUp 1.4s ease 0.8s forwards;
+}
+
+html[data-lang="en"] .hero__title {
+  font-family: var(--font-display);
+  letter-spacing: 0.2em;
+}
+
+.hero__divider {
+  width: 240px;
+  height: 1px;
+  margin: 0 auto 40px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  position: relative;
+  opacity: 0;
+  animation: fadeUp 1.4s ease 1s forwards;
+}
+
+.hero__divider::before {
+  content: '✦';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: var(--ink);
+  color: var(--gold);
+  padding: 0 16px;
+  font-size: 14px;
+}
+
+.hero__subtitle {
+  font-family: var(--font-body-ja);
+  font-style: italic;
+  font-size: clamp(16px, 2vw, 22px);
+  color: var(--gold-light);
+  margin-bottom: 48px;
+  letter-spacing: 0.05em;
+  opacity: 0;
+  animation: fadeUp 1.4s ease 1.2s forwards;
+}
+
+html[data-lang="en"] .hero__subtitle {
+  font-family: var(--font-body);
+}
+
+.hero__intro {
+  max-width: 720px;
+  margin: 0 auto;
+  font-size: clamp(15px, 1.5vw, 17px);
+  line-height: 2;
+  color: var(--parchment);
+  opacity: 0;
+  animation: fadeUp 1.4s ease 1.4s forwards;
+  text-align: justify;
+  text-align-last: center;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.hero__scroll-hint {
+  position: absolute;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.4em;
+  color: var(--gold);
+  opacity: 0;
+  animation: fadeUp 1.4s ease 1.8s forwards, bob 2s ease-in-out 2.5s infinite;
+}
+
+@keyframes bob {
+  0%, 100% { transform: translate(-50%, 0); }
+  50%      { transform: translate(-50%, 8px); }
+}
+
+/* ======================================================
+   NAVIGATION (sticky chapter index)
+   ====================================================== */
+.nav-section {
+  padding: 80px 32px 40px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.nav-section__title {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.4em;
+  color: var(--gold);
+  text-align: center;
+  margin-bottom: 32px;
+  text-transform: uppercase;
+}
+
+.nav-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
+  list-style: none;
+}
+
+.nav-grid a {
+  display: block;
+  padding: 16px 20px;
+  background: rgba(244, 234, 213, 0.03);
+  border: 1px solid rgba(201, 162, 74, 0.15);
+  border-radius: 2px;
+  color: var(--vellum);
+  text-decoration: none;
+  font-size: 14px;
+  letter-spacing: 0.05em;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.nav-grid a::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: var(--gold);
+  transform: scaleY(0);
+  transition: transform 0.3s ease;
+  transform-origin: bottom;
+}
+
+.nav-grid a:hover {
+  background: rgba(201, 162, 74, 0.08);
+  border-color: var(--gold-deep);
+  color: var(--parchment);
+  transform: translateX(4px);
+}
+
+.nav-grid a:hover::before {
+  transform: scaleY(1);
+  transform-origin: top;
+}
+
+.nav-grid .num {
+  font-family: var(--font-display);
+  color: var(--gold);
+  margin-right: 12px;
+  font-size: 12px;
+  letter-spacing: 0.1em;
+}
+
+/* ======================================================
+   CONTENT — Chapters
+   ====================================================== */
+.content {
+  max-width: 920px;
+  margin: 0 auto;
+  padding: 60px 32px 100px;
+}
+
+.chapter {
+  margin-bottom: 100px;
+  position: relative;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.8s ease;
+}
+
+.chapter.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.chapter__header {
+  display: flex;
+  align-items: baseline;
+  gap: 24px;
+  margin-bottom: 16px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid rgba(201, 162, 74, 0.25);
+  position: relative;
+}
+
+.chapter__header::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 80px;
+  height: 2px;
+  background: var(--gold);
+}
+
+.chapter__number {
+  font-family: var(--font-display);
+  font-size: clamp(40px, 6vw, 68px);
+  font-weight: 400;
+  color: var(--gold);
+  line-height: 1;
+  flex-shrink: 0;
+  text-shadow: 0 2px 20px rgba(201, 162, 74, 0.3);
+}
+
+.chapter__icon {
+  font-size: clamp(28px, 4vw, 40px);
+  color: var(--gold-light);
+  margin-right: 8px;
+}
+
+.chapter__title {
+  font-family: var(--font-display-ja);
+  font-size: clamp(22px, 3vw, 32px);
+  font-weight: 600;
+  color: var(--parchment);
+  letter-spacing: 0.08em;
+  flex-grow: 1;
+}
+
+html[data-lang="en"] .chapter__title {
+  font-family: var(--font-display);
+  letter-spacing: 0.05em;
+}
+
+.chapter--important .chapter__title {
+  color: var(--gold-light);
+}
+
+.chapter--important .chapter__header::after {
+  background: var(--ember);
+  width: 120px;
+}
+
+.chapter__lead {
+  font-family: var(--font-body-ja);
+  font-style: italic;
+  font-size: clamp(16px, 1.8vw, 19px);
+  color: var(--gold-light);
+  margin: 24px 0 32px;
+  padding-left: 24px;
+  border-left: 2px solid var(--gold-deep);
+  line-height: 1.9;
+  letter-spacing: 0.02em;
+}
+
+html[data-lang="en"] .chapter__lead {
+  font-family: var(--font-body);
+}
+
+/* --- Rules list --- */
+.rules-list {
+  list-style: none;
+  margin-top: 24px;
+}
+
+.rules-list li {
+  padding: 18px 0 18px 44px;
+  position: relative;
+  border-bottom: 1px dashed rgba(201, 162, 74, 0.15);
+  line-height: 1.85;
+  color: var(--parchment);
+}
+
+.rules-list li:last-child {
+  border-bottom: none;
+}
+
+.rules-list li::before {
+  content: '◆';
+  position: absolute;
+  left: 12px;
+  top: 22px;
+  color: var(--gold);
+  font-size: 12px;
+}
+
+.rules-list li.note {
+  font-size: 14px;
+  color: var(--vellum);
+  opacity: 0.85;
+  font-style: italic;
+  padding-left: 60px;
+}
+
+.rules-list li.note::before {
+  content: '※';
+  left: 28px;
+  top: 18px;
+  color: var(--moss);
+}
+
+/* --- Subsections (used in boss chapter) --- */
+.subsection {
+  margin-top: 36px;
+  padding: 28px 32px;
+  background: linear-gradient(135deg, rgba(244, 234, 213, 0.04) 0%, rgba(201, 162, 74, 0.03) 100%);
+  border: 1px solid rgba(201, 162, 74, 0.2);
+  border-radius: 2px;
+  position: relative;
+}
+
+.subsection::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 40px;
+  height: 1px;
+  background: var(--gold);
+}
+
+.subsection__heading {
+  font-family: var(--font-display-ja);
+  font-size: 16px;
+  letter-spacing: 0.2em;
+  color: var(--gold);
+  text-transform: uppercase;
+  margin-bottom: 16px;
+  font-weight: 600;
+}
+
+html[data-lang="en"] .subsection__heading {
+  font-family: var(--font-display);
+}
+
+.subsection .rules-list li {
+  border-bottom-color: rgba(201, 162, 74, 0.1);
+  padding: 12px 0 12px 36px;
+}
+
+.subsection .rules-list li::before {
+  top: 16px;
+  left: 6px;
+}
+
+/* HP threshold special styling */
+.subsection .rules-list li:has-text('50%'),
+.subsection .rules-list li {
+  font-size: 16px;
+}
+
+.chapter--important .subsection {
+  border-color: rgba(217, 109, 58, 0.25);
+  background: linear-gradient(135deg, rgba(217, 109, 58, 0.04) 0%, rgba(201, 162, 74, 0.03) 100%);
+}
+
+.chapter--important .subsection::before {
+  background: var(--ember);
+}
+
+.chapter--important .subsection__heading {
+  color: var(--ember);
+}
+
+/* --- Important badge --- */
+.important-badge {
+  display: inline-block;
+  margin-left: 12px;
+  padding: 4px 12px;
+  background: var(--ember);
+  color: var(--ink);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  border-radius: 2px;
+  vertical-align: middle;
+  font-weight: 700;
+}
+
+/* ======================================================
+   FOOTER
+   ====================================================== */
+.footer {
+  margin-top: 80px;
+  padding: 80px 32px 60px;
+  background: linear-gradient(180deg, transparent 0%, rgba(201, 162, 74, 0.04) 50%, rgba(14, 22, 32, 0.8) 100%);
+  border-top: 1px solid rgba(201, 162, 74, 0.2);
+  text-align: center;
+  position: relative;
+}
+
+.footer::before {
+  content: '⚝';
+  position: absolute;
+  top: -16px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 32px;
+  color: var(--gold);
+  background: var(--ink);
+  padding: 0 24px;
+}
+
+.footer__closing {
+  max-width: 720px;
+  margin: 0 auto 32px;
+  font-size: clamp(15px, 1.6vw, 18px);
+  font-style: italic;
+  line-height: 2;
+  color: var(--gold-light);
+}
+
+.footer__signature {
+  font-family: var(--font-display-ja);
+  font-size: 16px;
+  letter-spacing: 0.2em;
+  color: var(--gold);
+  margin-bottom: 60px;
+}
+
+html[data-lang="en"] .footer__signature {
+  font-family: var(--font-display);
+}
+
+.footer__meta {
+  display: flex;
+  justify-content: center;
+  gap: 48px;
+  flex-wrap: wrap;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  color: var(--vellum);
+  opacity: 0.6;
+  text-transform: uppercase;
+}
+
+.footer__meta span strong {
+  color: var(--gold);
+  font-weight: 500;
+}
+
+.footer__game-link {
+  display: inline-block;
+  margin-top: 24px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  color: var(--gold-deep);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: all 0.3s ease;
+}
+
+.footer__game-link:hover {
+  color: var(--gold-light);
+  border-bottom-color: var(--gold);
+}
+
+/* ======================================================
+   RESPONSIVE
+   ====================================================== */
+@media (max-width: 768px) {
+  body { font-size: 15px; }
+  .topbar { padding: 14px 20px; }
+  .topbar__brand { font-size: 11px; letter-spacing: 0.3em; }
+  .lang-toggle { padding: 6px 14px; font-size: 11px; }
+  .hero { padding: 100px 20px 60px; }
+  .hero__rune-frame { font-size: 14px; letter-spacing: 0.5em; }
+  .nav-section { padding: 60px 20px 30px; }
+  .nav-grid { grid-template-columns: 1fr; }
+  .content { padding: 40px 20px 60px; }
+  .chapter { margin-bottom: 70px; }
+  .chapter__header { flex-direction: column; gap: 8px; align-items: flex-start; }
+  .chapter__lead { padding-left: 16px; }
+  .rules-list li { padding-left: 32px; }
+  .rules-list li::before { left: 8px; }
+  .subsection { padding: 20px 18px; }
+  .footer__meta { gap: 24px; flex-direction: column; }
+}
+
+/* ======================================================
+   PRINT — for those who want to print the charter
+   ====================================================== */
+@media print {
+  body { background: white; color: black; }
+  body::before, body::after, .rune-particle { display: none; }
+  .topbar, .nav-section, .hero__scroll-hint { display: none; }
+  .chapter { page-break-inside: avoid; opacity: 1; transform: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- Floating rune particles (decorative) -->
+<div class="rune-particle" style="left: 5%;  top: 100%; font-size: 80px; animation-delay: 0s;">ᚠ</div>
+<div class="rune-particle" style="left: 15%; top: 100%; font-size: 60px; animation-delay: 8s;">ᚱ</div>
+<div class="rune-particle" style="left: 25%; top: 100%; font-size: 90px; animation-delay: 16s;">ᚷ</div>
+<div class="rune-particle" style="left: 40%; top: 100%; font-size: 70px; animation-delay: 24s;">ᛏ</div>
+<div class="rune-particle" style="left: 55%; top: 100%; font-size: 100px; animation-delay: 32s;">ᛟ</div>
+<div class="rune-particle" style="left: 70%; top: 100%; font-size: 65px; animation-delay: 40s;">ᛞ</div>
+<div class="rune-particle" style="left: 85%; top: 100%; font-size: 85px; animation-delay: 48s;">ᚦ</div>
+<div class="rune-particle" style="left: 92%; top: 100%; font-size: 75px; animation-delay: 56s;">ᛒ</div>
+
+<!-- Top bar -->
+<header class="topbar">
+  <div class="topbar__brand">ISEKAI · LEGEND OF YMIR</div>
+  <button class="lang-toggle" onclick="toggleLang()" id="langToggle">English</button>
+</header>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="hero__rune-frame">ᚨ &nbsp; ᛁ &nbsp; ᛋ &nbsp; ᛖ &nbsp; ᚲ &nbsp; ᚨ &nbsp; ᛁ</div>
+  <div class="hero__eyebrow" data-key="header.eyebrow"></div>
+  <h1 class="hero__server-name">ISEKAI</h1>
+  <div class="hero__title" data-key="header.title"></div>
+  <div class="hero__divider"></div>
+  <p class="hero__subtitle" data-key="header.subtitle"></p>
+  <p class="hero__intro" data-key="header.intro"></p>
+  <div class="hero__scroll-hint">↓ &nbsp; SCROLL &nbsp; ↓</div>
+</section>
+
+<!-- Navigation -->
+<nav class="nav-section">
+  <div class="nav-section__title" id="navSectionTitle">— Chapters · 章 —</div>
+  <ul class="nav-grid" id="navGrid"></ul>
+</nav>
+
+<!-- Content -->
+<main class="content" id="content"></main>
+
+<!-- Footer -->
+<footer class="footer">
+  <p class="footer__closing" data-key="footer.closing"></p>
+  <p class="footer__signature" data-key="footer.signature"></p>
+  <div class="footer__meta">
+    <span><strong data-key="footer.versionLabel"></strong> · <span id="versionValue"></span></span>
+    <span><strong data-key="footer.updatedLabel"></strong> · <span id="updatedValue"></span></span>
+    <span>SERVER · ISEKAI</span>
+  </div>
+  <a href="https://www.legendofymir.com/" target="_blank" rel="noopener" class="footer__game-link">
+    LEGEND OF YMIR — OFFICIAL SITE ↗
+  </a>
+</footer>
+
+<!-- Content data -->
+<script src="content.js"></script>
+
+<script>
+/* ======================================================
+   ISEKAI Whitepaper — Renderer
+   - Reads ISEKAI_CONTENT (from content.js)
+   - Builds the page in either Japanese or English
+   - Toggle persists in localStorage
+   ====================================================== */
+
+let currentLang = 'ja';
+
+function getNested(obj, path) {
+  return path.split('.').reduce((acc, key) => acc?.[key], obj);
+}
+
+function getText(value) {
+  if (typeof value === 'string') return value;
+  if (value && typeof value === 'object' && value[currentLang] !== undefined) {
+    return value[currentLang];
+  }
+  return '';
+}
+
+function render() {
+  const C = ISEKAI_CONTENT;
+
+  // Set HTML lang attr
+  document.documentElement.setAttribute('data-lang', currentLang);
+  document.documentElement.setAttribute('lang', currentLang);
+
+  // Update language toggle button label
+  document.getElementById('langToggle').textContent = getText(C.footer.languageToggle);
+
+  // Bind all [data-key] elements
+  document.querySelectorAll('[data-key]').forEach(el => {
+    const key = el.getAttribute('data-key');
+    const val = getNested(C, key);
+    el.textContent = getText(val);
+  });
+
+  // Meta values
+  document.getElementById('versionValue').textContent = C.meta.version;
+  document.getElementById('updatedValue').textContent = getText(C.meta.lastUpdated);
+
+  // Nav section title
+  document.getElementById('navSectionTitle').textContent =
+    currentLang === 'ja' ? '— 目次 · CHAPTERS —' : '— CHAPTERS · 目次 —';
+
+  // Build navigation
+  const navGrid = document.getElementById('navGrid');
+  navGrid.innerHTML = '';
+  C.nav[currentLang].forEach((item, idx) => {
+    const li = document.createElement('li');
+    const a = document.createElement('a');
+    a.href = `#${item.id}`;
+    a.innerHTML = `<span class="num">${C.sections[idx].number}.</span>${item.label}`;
+    li.appendChild(a);
+    navGrid.appendChild(li);
+  });
+
+  // Build chapters
+  const content = document.getElementById('content');
+  content.innerHTML = '';
+  C.sections.forEach(section => {
+    const chapter = document.createElement('article');
+    chapter.className = 'chapter' + (section.important ? ' chapter--important' : '');
+    chapter.id = section.id;
+
+    // Header
+    const header = document.createElement('div');
+    header.className = 'chapter__header';
+    header.innerHTML = `
+      <div class="chapter__number">${section.number}</div>
+      <h2 class="chapter__title">
+        <span class="chapter__icon">${section.icon}</span>${getText(section.title)}
+        ${section.important ? `<span class="important-badge">${currentLang === 'ja' ? '最重要' : 'Critical'}</span>` : ''}
+      </h2>
+    `;
+    chapter.appendChild(header);
+
+    // Lead
+    if (section.lead) {
+      const lead = document.createElement('p');
+      lead.className = 'chapter__lead';
+      lead.textContent = getText(section.lead);
+      chapter.appendChild(lead);
+    }
+
+    // Subsections (e.g. Boss chapter) or flat rules
+    if (section.subsections) {
+      section.subsections.forEach(sub => {
+        const subEl = document.createElement('div');
+        subEl.className = 'subsection';
+        const heading = document.createElement('h3');
+        heading.className = 'subsection__heading';
+        heading.textContent = getText(sub.heading);
+        subEl.appendChild(heading);
+        const ul = document.createElement('ul');
+        ul.className = 'rules-list';
+        sub.rules.forEach(rule => {
+          const li = document.createElement('li');
+          if (rule.note) li.classList.add('note');
+          li.textContent = getText(rule);
+          ul.appendChild(li);
+        });
+        subEl.appendChild(ul);
+        chapter.appendChild(subEl);
+      });
+    } else if (section.rules) {
+      const ul = document.createElement('ul');
+      ul.className = 'rules-list';
+      section.rules.forEach(rule => {
+        const li = document.createElement('li');
+        if (rule.note) li.classList.add('note');
+        li.textContent = getText(rule);
+        ul.appendChild(li);
+      });
+      chapter.appendChild(ul);
+    }
+
+    content.appendChild(chapter);
+  });
+
+  // Re-observe chapters for fade-in
+  observeChapters();
+}
+
+function toggleLang() {
+  currentLang = currentLang === 'ja' ? 'en' : 'ja';
+  try { localStorage.setItem('isekai_lang', currentLang); } catch(e) {}
+  render();
+}
+
+function observeChapters() {
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.chapter').forEach(c => observer.observe(c));
+}
+
+// Init
+try {
+  const saved = localStorage.getItem('isekai_lang');
+  if (saved === 'en' || saved === 'ja') currentLang = saved;
+} catch(e) {}
+
+document.addEventListener('DOMContentLoaded', render);
+</script>
+
+</body>
+</html>
