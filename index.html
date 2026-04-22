@@ -105,7 +105,7 @@ body::before {
   /* Fade the video into the surrounding dark so edges feel blurred */
   -webkit-mask-image: radial-gradient(ellipse 70% 75% at center, rgba(0,0,0,1) 35%, rgba(0,0,0,0) 100%);
           mask-image: radial-gradient(ellipse 70% 75% at center, rgba(0,0,0,1) 35%, rgba(0,0,0,0) 100%);
-  filter: blur(1.5px) brightness(0.55) saturate(0.85);
+  filter: blur(1.5px) brightness(0.38) saturate(0.8);
 }
 
 .bg-video__overlay {
@@ -113,8 +113,8 @@ body::before {
   inset: 0;
   pointer-events: none;
   background:
-    radial-gradient(ellipse 75% 70% at 50% 45%, transparent 25%, rgba(14,22,32,0.55) 75%, rgba(14,22,32,0.95) 100%),
-    linear-gradient(180deg, rgba(14,22,32,0.25) 0%, rgba(14,22,32,0.45) 100%);
+    radial-gradient(ellipse 75% 70% at 50% 45%, rgba(14,22,32,0.4) 20%, rgba(14,22,32,0.8) 75%, rgba(14,22,32,0.98) 100%),
+    linear-gradient(180deg, rgba(14,22,32,0.4) 0%, rgba(14,22,32,0.6) 100%);
 }
 
 body::after {
