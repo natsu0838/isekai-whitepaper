@@ -69,7 +69,7 @@ html[data-lang="vi"] body {
   font-family: var(--font-body-vi);
 }
 
-/* --- Atmospheric background: aurora over fjord --- */
+/* --- Atmospheric background: aurora over fjord (fallback when video masks out) --- */
 body::before {
   content: '';
   position: fixed;
@@ -79,7 +79,42 @@ body::before {
     radial-gradient(ellipse 60% 40% at 80% 30%, rgba(107, 142, 90, 0.15), transparent 60%),
     radial-gradient(ellipse 100% 60% at 50% 100%, rgba(201, 162, 74, 0.08), transparent 70%),
     linear-gradient(180deg, #0a1018 0%, #0e1620 40%, #131c28 100%);
+  z-index: -3;
+}
+
+/* --- Ambient background video --- */
+.bg-video {
+  position: fixed;
+  inset: 0;
   z-index: -2;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.bg-video #ytPlayer,
+.bg-video iframe {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  /* Always cover the viewport at 16:9 aspect */
+  width: max(100vw, 177.78vh);
+  height: max(56.25vw, 100vh);
+  transform: translate(-50%, -50%);
+  border: 0;
+  pointer-events: none;
+  /* Fade the video into the surrounding dark so edges feel blurred */
+  -webkit-mask-image: radial-gradient(ellipse 70% 75% at center, rgba(0,0,0,1) 35%, rgba(0,0,0,0) 100%);
+          mask-image: radial-gradient(ellipse 70% 75% at center, rgba(0,0,0,1) 35%, rgba(0,0,0,0) 100%);
+  filter: blur(1.5px) brightness(0.55) saturate(0.85);
+}
+
+.bg-video__overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 75% 70% at 50% 45%, transparent 25%, rgba(14,22,32,0.55) 75%, rgba(14,22,32,0.95) 100%),
+    linear-gradient(180deg, rgba(14,22,32,0.25) 0%, rgba(14,22,32,0.45) 100%);
 }
 
 body::after {
@@ -842,6 +877,12 @@ html[data-lang="vi"] .footer__signature {
 </head>
 <body>
 
+<!-- Ambient background video (Legend of YMIR trailer loop, muted) -->
+<div class="bg-video" aria-hidden="true">
+  <div id="ytPlayer"></div>
+  <div class="bg-video__overlay"></div>
+</div>
+
 <!-- Floating rune particles (decorative) -->
 <div class="rune-particle" style="left: 5%;  top: 100%; font-size: 80px; animation-delay: 0s;">ᚠ</div>
 <div class="rune-particle" style="left: 15%; top: 100%; font-size: 60px; animation-delay: 8s;">ᚱ</div>
@@ -1111,6 +1152,60 @@ try {
 } catch(e) {}
 
 document.addEventListener('DOMContentLoaded', render);
+
+/* ======================================================
+   Background video — YouTube IFrame API
+   Plays JLuhzNuApGY from 5s to 80s, muted, looped silently.
+   Using the API (not ?loop=1) so looping respects start/end reliably.
+   ====================================================== */
+const BG_VIDEO = { id: 'JLuhzNuApGY', start: 5, end: 80 };
+let ytPlayer = null;
+
+function onYouTubeIframeAPIReady() {
+  ytPlayer = new YT.Player('ytPlayer', {
+    videoId: BG_VIDEO.id,
+    playerVars: {
+      autoplay: 1,
+      mute: 1,
+      controls: 0,
+      disablekb: 1,
+      modestbranding: 1,
+      playsinline: 1,
+      rel: 0,
+      iv_load_policy: 3,
+      fs: 0,
+      start: BG_VIDEO.start,
+      end: BG_VIDEO.end
+    },
+    events: {
+      onReady: (e) => {
+        e.target.mute();
+        e.target.playVideo();
+      },
+      onStateChange: (e) => {
+        if (e.data === YT.PlayerState.ENDED) {
+          ytPlayer.seekTo(BG_VIDEO.start, true);
+          ytPlayer.playVideo();
+        }
+      }
+    }
+  });
+  // Watchdog: the end= param is sometimes unreliable; enforce the boundary.
+  setInterval(() => {
+    if (!ytPlayer || typeof ytPlayer.getCurrentTime !== 'function') return;
+    const t = ytPlayer.getCurrentTime();
+    if (t >= BG_VIDEO.end) {
+      ytPlayer.seekTo(BG_VIDEO.start, true);
+      ytPlayer.playVideo();
+    }
+  }, 500);
+}
+
+(function loadYouTubeAPI() {
+  const tag = document.createElement('script');
+  tag.src = 'https://www.youtube.com/iframe_api';
+  document.head.appendChild(tag);
+})();
 </script>
 
 </body>
