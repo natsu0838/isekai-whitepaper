@@ -16,8 +16,8 @@ const ISEKAI_CONTENT = {
     serverName: "ISEKAI",
     version: "1.0",
     lastUpdated: {
-      ja: "2026年4月",
-      en: "April 2026"
+      ja: "2026年4月22日",
+      en: "April 22, 2026"
     },
     game: {
       title: "Legend of YMIR",
