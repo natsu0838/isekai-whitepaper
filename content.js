@@ -60,7 +60,6 @@ const ISEKAI_CONTENT = {
   nav: {
     ja: [
       { id: "server-war",     label: "サーバー戦" },
-      { id: "crown-strategy", label: "王冠戦の方針" },
       { id: "chat-manner",    label: "チャットマナー" },
       { id: "trouble",        label: "トラブル対応" },
       { id: "hunting",        label: "狩場ルール" },
@@ -70,7 +69,6 @@ const ISEKAI_CONTENT = {
     ],
     en: [
       { id: "server-war",     label: "Server Battles" },
-      { id: "crown-strategy", label: "Crown Strategy" },
       { id: "chat-manner",    label: "Chat Etiquette" },
       { id: "trouble",        label: "Conflict Resolution" },
       { id: "hunting",        label: "Hunting Grounds" },
@@ -80,7 +78,6 @@ const ISEKAI_CONTENT = {
     ],
     zh: [
       { id: "server-war",     label: "服务器战役" },
-      { id: "crown-strategy", label: "王冠战方针" },
       { id: "chat-manner",    label: "聊天礼仪" },
       { id: "trouble",        label: "纠纷处理" },
       { id: "hunting",        label: "狩猎场规则" },
@@ -90,7 +87,6 @@ const ISEKAI_CONTENT = {
     ],
     vi: [
       { id: "server-war",     label: "Trận chiến máy chủ" },
-      { id: "crown-strategy", label: "Chiến lược Vương miện" },
       { id: "chat-manner",    label: "Phép tắc trò chuyện" },
       { id: "trouble",        label: "Giải quyết xung đột" },
       { id: "hunting",        label: "Quy tắc khu săn" },
@@ -113,10 +109,10 @@ const ISEKAI_CONTENT = {
         vi: "Quy tắc trận chiến máy chủ"
       },
       lead: {
-        ja: "塔と王冠を巡る攻防は、サーバーの華。だからこそ、外の敵にだけ刃を向けましょう。",
-        en: "The battles for the towers and the crown are the soul of our server — let's keep our blades aimed outward.",
-        zh: "围绕塔楼与王冠的攻防是服务器的精华。正因如此，让我们只将刀锋指向外部的敌人。",
-        vi: "Những trận chiến quanh các tòa tháp và Vương miện là linh hồn của máy chủ — hãy chỉ hướng lưỡi kiếm ra bên ngoài."
+        ja: "塔と王冠を巡る攻防は、サーバーの華。だからこそ、外の敵にだけ刃を向けましょう。王冠を獲ったら、みんなで担いで守り抜くのがISEKAI流です。",
+        en: "The battles for the towers and the Crown are the soul of our server — let's keep our blades aimed outward. Once the Crown is won, the ISEKAI way is to lift it together and defend it together.",
+        zh: "围绕塔楼与王冠的攻防是服务器的精华。正因如此，让我们只将刀锋指向外部的敌人。一旦夺得王冠，便一同举起、一同守护——这就是 ISEKAI 的风格。",
+        vi: "Những trận chiến quanh các tòa tháp và Vương miện là linh hồn của máy chủ — hãy chỉ hướng lưỡi kiếm ra bên ngoài. Khi giành được Vương miện, phong cách ISEKAI là tất cả cùng nâng lên và cùng bảo vệ."
       },
       rules: [
         {
@@ -136,26 +132,7 @@ const ISEKAI_CONTENT = {
           en: "The same applies during the Crown contest — no intra-server attacks.",
           zh: "王冠（Crown）争夺战期间同样禁止同服务器内互相攻击。",
           vi: "Quy định tương tự áp dụng cho trận tranh Vương miện — cấm tấn công nội bộ máy chủ."
-        }
-      ]
-    },
-    {
-      id: "crown-strategy",
-      number: "II",
-      icon: "♛",
-      title: {
-        ja: "王冠戦の行動方針",
-        en: "Crown Battle Strategy",
-        zh: "王冠战行动方针",
-        vi: "Phương châm hành động trong trận Vương miện"
-      },
-      lead: {
-        ja: "王冠を獲ったクランは、もうサーバーの旗印。みんなで担いで守り抜きましょう。",
-        en: "The clan that claims the Crown becomes our banner — we lift it together, and we defend it together.",
-        zh: "夺得王冠的公会就是服务器的旗帜——让我们一同举起、一同守护。",
-        vi: "Liên minh giành được Vương miện trở thành lá cờ của máy chủ — tất cả cùng nâng lên, cùng bảo vệ."
-      },
-      rules: [
+        },
         {
           ja: "王冠を獲得したクランを、サーバー全体で防衛する方針に切り替えます。",
           en: "Once a clan claims the Crown, the entire server shifts into a unified defensive posture to protect them.",
@@ -172,7 +149,7 @@ const ISEKAI_CONTENT = {
     },
     {
       id: "chat-manner",
-      number: "III",
+      number: "II",
       icon: "✦",
       title: {
         ja: "チャットマナー",
@@ -215,7 +192,7 @@ const ISEKAI_CONTENT = {
     },
     {
       id: "trouble",
-      number: "IV",
+      number: "III",
       icon: "☘",
       title: {
         ja: "トラブル対応",
@@ -246,7 +223,7 @@ const ISEKAI_CONTENT = {
     },
     {
       id: "hunting",
-      number: "V",
+      number: "IV",
       icon: "🏹",
       title: {
         ja: "狩場ルール（マップスポット）",
@@ -278,7 +255,7 @@ const ISEKAI_CONTENT = {
     },
     {
       id: "auto-quest",
-      number: "VI",
+      number: "V",
       icon: "⚙",
       title: {
         ja: "自動任務ルール",
@@ -309,7 +286,7 @@ const ISEKAI_CONTENT = {
     },
     {
       id: "boss",
-      number: "VII",
+      number: "VI",
       icon: "☠",
       title: {
         ja: "ボス・チャンピオンルール（最重要）",
@@ -389,7 +366,7 @@ const ISEKAI_CONTENT = {
     },
     {
       id: "prohibited",
-      number: "VIII",
+      number: "VII",
       icon: "⛔",
       title: {
         ja: "その他禁止事項",
