@@ -977,7 +977,6 @@ a.footer__social-link:hover {
   <p class="footer__closing" data-key="footer.closing"></p>
   <p class="footer__signature" data-key="footer.signature"></p>
   <div class="footer__meta">
-    <span><strong data-key="footer.versionLabel"></strong> · <span id="versionValue"></span></span>
     <span><strong data-key="footer.updatedLabel"></strong> · <span id="updatedValue"></span></span>
     <span>SERVER · ISEKAI</span>
   </div>
@@ -1046,7 +1045,6 @@ function render() {
   });
 
   // Meta values
-  document.getElementById('versionValue').textContent = C.meta.version;
   document.getElementById('updatedValue').textContent = getText(C.meta.lastUpdated);
 
   // Nav section title
