@@ -434,14 +434,6 @@ const ISEKAI_CONTENT = {
       zh: "— ISEKAI 运营团队",
       vi: "— Đội ngũ ISEKAI"
     },
-    /* 言語トグルのボタン表示：現在の言語を表示中のとき、ボタンには「次に切り替わる言語」を表示する。
-       循環順: ja → en → zh → vi → ja */
-    languageToggle: {
-      ja: "English",
-      en: "中文",
-      zh: "Tiếng Việt",
-      vi: "日本語"
-    },
     versionLabel: {
       ja: "バージョン",
       en: "Version",

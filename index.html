@@ -158,6 +158,91 @@ body::after {
   box-shadow: 0 0 20px rgba(201, 162, 74, 0.4);
 }
 
+/* --- Language dropdown menu --- */
+.lang-menu {
+  position: relative;
+}
+
+.lang-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.lang-toggle-caret {
+  font-size: 10px;
+  color: var(--gold-deep);
+  transition: transform 0.2s ease;
+}
+
+.lang-toggle:hover .lang-toggle-caret {
+  color: var(--ink);
+}
+
+.lang-menu.open .lang-toggle-caret {
+  transform: rotate(180deg);
+}
+
+.lang-dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  min-width: 160px;
+  margin: 0;
+  padding: 4px;
+  list-style: none;
+  background: rgba(14, 22, 32, 0.96);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--gold-deep);
+  border-radius: 2px;
+  box-shadow: var(--shadow-deep);
+  z-index: 200;
+}
+
+.lang-dropdown[hidden] {
+  display: none;
+}
+
+.lang-dropdown li {
+  margin: 0;
+}
+
+.lang-dropdown button {
+  display: block;
+  width: 100%;
+  padding: 10px 16px;
+  background: transparent;
+  border: none;
+  color: var(--vellum);
+  font-size: 14px;
+  letter-spacing: 0.08em;
+  text-align: left;
+  cursor: pointer;
+  border-radius: 2px;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.lang-dropdown button[data-lang="ja"] { font-family: var(--font-display-ja); }
+.lang-dropdown button[data-lang="en"] { font-family: var(--font-display); }
+.lang-dropdown button[data-lang="zh"] { font-family: var(--font-display-zh); }
+.lang-dropdown button[data-lang="vi"] { font-family: var(--font-display-vi); }
+
+.lang-dropdown button:hover {
+  background: rgba(201, 162, 74, 0.12);
+  color: var(--parchment);
+}
+
+.lang-dropdown button[aria-current="true"] {
+  background: rgba(201, 162, 74, 0.18);
+  color: var(--gold-light);
+}
+
+.lang-dropdown button[aria-current="true"]::before {
+  content: '◆ ';
+  color: var(--gold);
+  font-size: 10px;
+}
+
 /* ======================================================
    HERO
    ====================================================== */
@@ -770,7 +855,18 @@ html[data-lang="vi"] .footer__signature {
 <!-- Top bar -->
 <header class="topbar">
   <div class="topbar__brand">ISEKAI · LEGEND OF YMIR</div>
-  <button class="lang-toggle" onclick="toggleLang()" id="langToggle">English</button>
+  <div class="lang-menu" id="langMenu">
+    <button class="lang-toggle" onclick="toggleLangMenu(event)" id="langToggle" aria-haspopup="listbox" aria-expanded="false">
+      <span id="langToggleLabel">日本語</span>
+      <span class="lang-toggle-caret" aria-hidden="true">▾</span>
+    </button>
+    <ul class="lang-dropdown" id="langDropdown" role="listbox" hidden>
+      <li><button type="button" data-lang="ja" onclick="selectLang('ja')">日本語</button></li>
+      <li><button type="button" data-lang="en" onclick="selectLang('en')">English</button></li>
+      <li><button type="button" data-lang="zh" onclick="selectLang('zh')">中文</button></li>
+      <li><button type="button" data-lang="vi" onclick="selectLang('vi')">Tiếng Việt</button></li>
+    </ul>
+  </div>
 </header>
 
 <!-- Hero -->
@@ -840,8 +936,13 @@ function render() {
   document.documentElement.setAttribute('data-lang', currentLang);
   document.documentElement.setAttribute('lang', currentLang);
 
-  // Update language toggle button label
-  document.getElementById('langToggle').textContent = getText(C.footer.languageToggle);
+  // Update language toggle button label (shows current language's native name)
+  document.getElementById('langToggleLabel').textContent = LANG_LABELS[currentLang];
+
+  // Mark the active language in the dropdown
+  document.querySelectorAll('.lang-dropdown button').forEach(btn => {
+    btn.setAttribute('aria-current', btn.dataset.lang === currentLang ? 'true' : 'false');
+  });
 
   // Bind all [data-key] elements
   document.querySelectorAll('[data-key]').forEach(el => {
@@ -949,13 +1050,48 @@ function render() {
 }
 
 const LANG_ORDER = ['ja', 'en', 'zh', 'vi'];
+const LANG_LABELS = {
+  ja: '日本語',
+  en: 'English',
+  zh: '中文',
+  vi: 'Tiếng Việt'
+};
 
-function toggleLang() {
-  const idx = LANG_ORDER.indexOf(currentLang);
-  currentLang = LANG_ORDER[(idx + 1) % LANG_ORDER.length];
+function toggleLangMenu(event) {
+  event.stopPropagation();
+  const menu = document.getElementById('langMenu');
+  const dd = document.getElementById('langDropdown');
+  const toggle = document.getElementById('langToggle');
+  const willOpen = dd.hidden;
+  dd.hidden = !willOpen;
+  menu.classList.toggle('open', willOpen);
+  toggle.setAttribute('aria-expanded', String(willOpen));
+}
+
+function closeLangMenu() {
+  const dd = document.getElementById('langDropdown');
+  if (!dd || dd.hidden) return;
+  dd.hidden = true;
+  document.getElementById('langMenu').classList.remove('open');
+  document.getElementById('langToggle').setAttribute('aria-expanded', 'false');
+}
+
+function selectLang(lang) {
+  if (!LANG_ORDER.includes(lang)) return;
+  currentLang = lang;
   try { localStorage.setItem('isekai_lang', currentLang); } catch(e) {}
+  closeLangMenu();
   render();
 }
+
+document.addEventListener('click', (e) => {
+  const menu = document.getElementById('langMenu');
+  if (menu && !menu.contains(e.target)) closeLangMenu();
+});
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') closeLangMenu();
+});
 
 function observeChapters() {
   const observer = new IntersectionObserver((entries) => {
