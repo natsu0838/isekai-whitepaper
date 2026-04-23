@@ -516,12 +516,12 @@ const ISEKAI_CONTENT = {
                 zh: "若有异议或认知错误，请玩家本人通过 Discord 工单联系 — 将酌情考虑解封。",
                 vi: "Nếu có khiếu nại hoặc nhầm lẫn, người chơi tự mở phiếu Discord — việc gỡ cấm sẽ được xem xét tùy trường hợp."
               },
-              /* ISEKAI Discord 招待リンクは現在準備中。公開時には href を設定してください。 */
               subtext: {
-                ja: "ISEKAI Discord：招待リンクは近日公開予定",
-                en: "ISEKAI Discord: invite link coming soon",
-                zh: "ISEKAI Discord：邀请链接即将公开",
-                vi: "ISEKAI Discord: liên kết mời sẽ sớm được cập nhật"
+                ja: "ISEKAI Discord に参加する",
+                en: "Join the ISEKAI Discord",
+                zh: "加入 ISEKAI Discord",
+                vi: "Tham gia ISEKAI Discord",
+                href: "https://discord.gg/F4UkC5FUVk"
               }
             }
           ]
