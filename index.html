@@ -167,11 +167,68 @@ body::after {
   font-size: 13px;
   color: var(--gold);
   font-weight: 600;
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  transition: color 0.3s ease;
 }
 
 .topbar__brand::before {
   content: '◈ ';
   color: var(--gold-deep);
+  transition: color 0.3s ease;
+}
+
+.topbar__brand:hover {
+  color: var(--gold-light);
+}
+
+.topbar__brand:hover::before {
+  color: var(--gold);
+}
+
+.topbar__actions {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.topbar__social {
+  display: flex;
+  gap: 8px;
+}
+
+.topbar__social-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  color: var(--gold-deep);
+  background: rgba(201, 162, 74, 0.05);
+  border: 1px solid rgba(201, 162, 74, 0.3);
+  border-radius: 50%;
+  text-decoration: none;
+  transition: color 0.3s ease, background 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
+}
+
+.topbar__social-link svg {
+  width: 14px;
+  height: 14px;
+  fill: currentColor;
+}
+
+a.topbar__social-link:hover {
+  color: var(--ink);
+  background: var(--gold);
+  border-color: var(--gold);
+  transform: translateY(-1px);
+}
+
+.topbar__social-link--disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
 }
 
 .lang-toggle {
@@ -784,6 +841,18 @@ html[data-lang="vi"] .subsection__heading {
   letter-spacing: 0.01em;
 }
 
+.flow__step-subtext {
+  display: block;
+  margin-top: 6px;
+  padding-top: 6px;
+  border-top: 1px dotted rgba(201, 162, 74, 0.2);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.05em;
+  color: var(--vellum);
+  opacity: 0.72;
+}
+
 .flow__arrow {
   color: var(--gold-deep);
   text-align: left;
@@ -979,9 +1048,13 @@ a.footer__social-link:hover {
    ====================================================== */
 @media (max-width: 768px) {
   body { font-size: 15px; }
-  .topbar { padding: 14px 20px; }
-  .topbar__brand { font-size: 11px; letter-spacing: 0.3em; }
-  .lang-toggle { padding: 6px 14px; font-size: 11px; }
+  .topbar { padding: 14px 16px; gap: 10px; }
+  .topbar__brand { font-size: 10px; letter-spacing: 0.2em; }
+  .topbar__actions { gap: 8px; }
+  .topbar__social { gap: 4px; }
+  .topbar__social-link { width: 28px; height: 28px; }
+  .topbar__social-link svg { width: 12px; height: 12px; }
+  .lang-toggle { padding: 6px 12px; font-size: 11px; }
   .hero { padding: 100px 20px 60px; }
   .hero__rune-frame { font-size: 14px; letter-spacing: 0.5em; }
   .nav-section { padding: 60px 20px 30px; }
@@ -1027,18 +1100,32 @@ a.footer__social-link:hover {
 
 <!-- Top bar -->
 <header class="topbar">
-  <div class="topbar__brand">ISEKAI · LEGEND OF YMIR</div>
-  <div class="lang-menu" id="langMenu">
-    <button class="lang-toggle" onclick="toggleLangMenu(event)" id="langToggle" aria-haspopup="listbox" aria-expanded="false">
-      <span id="langToggleLabel">日本語</span>
-      <span class="lang-toggle-caret" aria-hidden="true">▾</span>
-    </button>
-    <ul class="lang-dropdown" id="langDropdown" role="listbox" hidden>
-      <li><button type="button" data-lang="ja" onclick="selectLang('ja')">日本語</button></li>
-      <li><button type="button" data-lang="en" onclick="selectLang('en')">English</button></li>
-      <li><button type="button" data-lang="zh" onclick="selectLang('zh')">中文</button></li>
-      <li><button type="button" data-lang="vi" onclick="selectLang('vi')">Tiếng Việt</button></li>
-    </ul>
+  <button type="button" class="topbar__brand" onclick="scrollToTop()" aria-label="Scroll to top">ISEKAI · LEGEND OF YMIR</button>
+  <div class="topbar__actions">
+    <div class="topbar__social">
+      <a href="https://x.com/ISEKAIofYMIR" target="_blank" rel="noopener" class="topbar__social-link" aria-label="X (Twitter) — @ISEKAIofYMIR">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+        </svg>
+      </a>
+      <span class="topbar__social-link topbar__social-link--disabled" aria-disabled="true" title="Discord — 調整中 / Coming Soon">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M20.317 4.37a19.79 19.79 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.865-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.74 19.74 0 0 0 3.677 4.37a.07.07 0 0 0-.032.028C.533 9.046-.319 13.58.099 18.058a.082.082 0 0 0 .031.056 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.2 14.2 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.1 13.1 0 0 1-1.872-.892.077.077 0 0 1-.008-.128c.126-.094.252-.192.372-.291a.074.074 0 0 1 .078-.01c3.927 1.793 8.18 1.793 12.061 0a.074.074 0 0 1 .079.009c.12.099.245.198.373.292a.077.077 0 0 1-.007.128 12.3 12.3 0 0 1-1.873.891.077.077 0 0 0-.04.107c.36.698.772 1.363 1.225 1.994a.076.076 0 0 0 .084.028 19.84 19.84 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.178-.838-9.674-3.549-13.661a.061.061 0 0 0-.031-.029zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/>
+        </svg>
+      </span>
+    </div>
+    <div class="lang-menu" id="langMenu">
+      <button class="lang-toggle" onclick="toggleLangMenu(event)" id="langToggle" aria-haspopup="listbox" aria-expanded="false">
+        <span id="langToggleLabel">日本語</span>
+        <span class="lang-toggle-caret" aria-hidden="true">▾</span>
+      </button>
+      <ul class="lang-dropdown" id="langDropdown" role="listbox" hidden>
+        <li><button type="button" data-lang="ja" onclick="selectLang('ja')">日本語</button></li>
+        <li><button type="button" data-lang="en" onclick="selectLang('en')">English</button></li>
+        <li><button type="button" data-lang="zh" onclick="selectLang('zh')">中文</button></li>
+        <li><button type="button" data-lang="vi" onclick="selectLang('vi')">Tiếng Việt</button></li>
+      </ul>
+    </div>
   </div>
 </header>
 
@@ -1100,6 +1187,10 @@ a.footer__social-link:hover {
    ====================================================== */
 
 let currentLang = 'ja';
+
+function scrollToTop() {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
 
 function getNested(obj, path) {
   return path.split('.').reduce((acc, key) => acc?.[key], obj);
@@ -1235,7 +1326,16 @@ function render() {
             iconEl.textContent = step.icon || '•';
             const bodyEl = document.createElement('div');
             bodyEl.className = 'flow__step-body';
-            bodyEl.textContent = getText(step.label);
+            const labelEl = document.createElement('div');
+            labelEl.className = 'flow__step-label';
+            labelEl.textContent = getText(step.label);
+            bodyEl.appendChild(labelEl);
+            if (step.subtext) {
+              const subEl = document.createElement('div');
+              subEl.className = 'flow__step-subtext';
+              subEl.textContent = getText(step.subtext);
+              bodyEl.appendChild(subEl);
+            }
             stepEl.appendChild(iconEl);
             stepEl.appendChild(bodyEl);
             flowEl.appendChild(stepEl);

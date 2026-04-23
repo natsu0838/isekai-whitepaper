@@ -59,8 +59,9 @@ const ISEKAI_CONTENT = {
   /* --------- ナビゲーション / Navigation --------- */
   nav: {
     ja: [
-      { id: "server-war",     label: "サーバー戦" },
-      { id: "chat-manner",    label: "チャットマナー" },
+      { id: "server-war",       label: "サーバー戦" },
+      { id: "external-stance",  label: "対外スタンス" },
+      { id: "chat-manner",      label: "チャットマナー" },
       { id: "trouble",        label: "トラブル対応" },
       { id: "hunting",        label: "狩場ルール" },
       { id: "auto-quest",     label: "自動任務" },
@@ -68,8 +69,9 @@ const ISEKAI_CONTENT = {
       { id: "prohibited",     label: "禁止事項" }
     ],
     en: [
-      { id: "server-war",     label: "Server Battles" },
-      { id: "chat-manner",    label: "Chat Etiquette" },
+      { id: "server-war",       label: "Server Battles" },
+      { id: "external-stance",  label: "External Stance" },
+      { id: "chat-manner",      label: "Chat Etiquette" },
       { id: "trouble",        label: "Conflict Resolution" },
       { id: "hunting",        label: "Hunting Grounds" },
       { id: "auto-quest",     label: "Auto-Quest" },
@@ -77,8 +79,9 @@ const ISEKAI_CONTENT = {
       { id: "prohibited",     label: "Prohibited Acts" }
     ],
     zh: [
-      { id: "server-war",     label: "服务器战役" },
-      { id: "chat-manner",    label: "聊天礼仪" },
+      { id: "server-war",       label: "服务器战役" },
+      { id: "external-stance",  label: "对外姿态" },
+      { id: "chat-manner",      label: "聊天礼仪" },
       { id: "trouble",        label: "纠纷处理" },
       { id: "hunting",        label: "狩猎场规则" },
       { id: "auto-quest",     label: "自动任务" },
@@ -86,8 +89,9 @@ const ISEKAI_CONTENT = {
       { id: "prohibited",     label: "禁止事项" }
     ],
     vi: [
-      { id: "server-war",     label: "Trận chiến máy chủ" },
-      { id: "chat-manner",    label: "Phép tắc trò chuyện" },
+      { id: "server-war",       label: "Trận chiến máy chủ" },
+      { id: "external-stance",  label: "Lập trường đối ngoại" },
+      { id: "chat-manner",      label: "Phép tắc trò chuyện" },
       { id: "trouble",        label: "Giải quyết xung đột" },
       { id: "hunting",        label: "Quy tắc khu săn" },
       { id: "auto-quest",     label: "Nhiệm vụ tự động" },
@@ -148,8 +152,71 @@ const ISEKAI_CONTENT = {
       ]
     },
     {
-      id: "chat-manner",
+      id: "external-stance",
       number: "II",
+      icon: "☯",
+      title: {
+        ja: "対外スタンス（他サーバーとの関係）",
+        en: "External Stance (Relations with Other Servers)",
+        zh: "对外姿态（与其他服务器的关系）",
+        vi: "Lập trường đối ngoại (Quan hệ với các máy chủ khác)"
+      },
+      lead: {
+        ja: "外の世界との向き合い方。普段は品格を、サーバー戦では本気を。",
+        en: "How we face the world beyond. Grace in daily life, full force in Server Battles.",
+        zh: "面对外部世界的方式——平日保持风度，服务器战全力以赴。",
+        vi: "Cách chúng ta đối diện với thế giới bên ngoài — thường ngày giữ phong độ, trong trận chiến máy chủ dốc toàn lực."
+      },
+      subsections: [
+        {
+          heading: {
+            ja: "平時（フィールドボス等）",
+            en: "Peacetime (Field Bosses, etc.)",
+            zh: "平日（野外 Boss 等）",
+            vi: "Thường ngày (Boss ngoài trời, v.v.)"
+          },
+          rules: [
+            {
+              ja: "親しみのある敵サーバーに対しては、フィールドボスではピースフルに協力し合う姿勢を大切にします。",
+              en: "With friendly rival servers, we value a peaceful, cooperative posture at field bosses.",
+              zh: "面对相熟的对手服务器，在野外 Boss 时，我们重视和平、互相协助的姿态。",
+              vi: "Với các máy chủ đối thủ thân thiện, tại các boss ngoài trời, chúng tôi đề cao tinh thần hòa bình và hợp tác."
+            },
+            {
+              ja: "無駄な争いは避け、ISEKAIサーバーとしての余裕と品格を持って行動してください。",
+              en: "Avoid pointless conflict. Carry yourself with the composure and dignity of an ISEKAI player.",
+              zh: "避免无谓的争斗，请以 ISEKAI 服务器应有的从容与风度行事。",
+              vi: "Tránh những xung đột vô nghĩa. Hãy hành xử với sự điềm tĩnh và phẩm cách của một người chơi ISEKAI."
+            }
+          ]
+        },
+        {
+          heading: {
+            ja: "サーバー戦時",
+            en: "During Server Battles",
+            zh: "服务器战期间",
+            vi: "Trong trận chiến máy chủ"
+          },
+          rules: [
+            {
+              ja: "サーバー戦においては一切の遠慮は不要です。",
+              en: "In Server Battles, no restraint is needed whatsoever.",
+              zh: "在服务器战中，无需任何客气。",
+              vi: "Trong trận chiến máy chủ, không cần bất kỳ sự khách sáo nào."
+            },
+            {
+              ja: "正々堂々と戦い、全力で勝利を目指しましょう。",
+              en: "Fight fair and with all your might — aim for victory with everything you have.",
+              zh: "堂堂正正地战斗，倾尽全力争取胜利。",
+              vi: "Chiến đấu đường hoàng và dốc hết sức — hướng đến chiến thắng bằng toàn bộ khả năng."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      id: "chat-manner",
+      number: "III",
       icon: "✦",
       title: {
         ja: "チャットマナー",
@@ -192,7 +259,7 @@ const ISEKAI_CONTENT = {
     },
     {
       id: "trouble",
-      number: "III",
+      number: "IV",
       icon: "☘",
       title: {
         ja: "トラブル対応",
@@ -223,7 +290,7 @@ const ISEKAI_CONTENT = {
     },
     {
       id: "hunting",
-      number: "IV",
+      number: "V",
       icon: "🏹",
       title: {
         ja: "狩場ルール（マップスポット）",
@@ -255,7 +322,7 @@ const ISEKAI_CONTENT = {
     },
     {
       id: "auto-quest",
-      number: "V",
+      number: "VI",
       icon: "⚙",
       title: {
         ja: "自動任務ルール",
@@ -286,7 +353,7 @@ const ISEKAI_CONTENT = {
     },
     {
       id: "boss",
-      number: "VI",
+      number: "VII",
       icon: "☠",
       title: {
         ja: "ボス・チャンピオンルール（最重要）",
@@ -366,7 +433,7 @@ const ISEKAI_CONTENT = {
     },
     {
       id: "prohibited",
-      number: "VII",
+      number: "VIII",
       icon: "⛔",
       title: {
         ja: "禁止事項と運営の対応",
@@ -448,6 +515,13 @@ const ISEKAI_CONTENT = {
                 en: "Disputes or mistaken identity? The player themselves opens a Discord ticket — unban is considered case by case.",
                 zh: "若有异议或认知错误，请玩家本人通过 Discord 工单联系 — 将酌情考虑解封。",
                 vi: "Nếu có khiếu nại hoặc nhầm lẫn, người chơi tự mở phiếu Discord — việc gỡ cấm sẽ được xem xét tùy trường hợp."
+              },
+              /* ISEKAI Discord 招待リンクは現在準備中。公開時には href を設定してください。 */
+              subtext: {
+                ja: "ISEKAI Discord：招待リンクは近日公開予定",
+                en: "ISEKAI Discord: invite link coming soon",
+                zh: "ISEKAI Discord：邀请链接即将公开",
+                vi: "ISEKAI Discord: liên kết mời sẽ sớm được cập nhật"
               }
             }
           ]
