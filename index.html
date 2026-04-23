@@ -738,6 +738,83 @@ html[data-lang="vi"] .subsection__heading {
   color: var(--ember);
 }
 
+/* --- Flow diagram (enforcement steps) --- */
+.flow {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 20px;
+}
+
+.subsection .rules-list + .flow {
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px dashed rgba(201, 162, 74, 0.2);
+}
+
+.flow__step {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 18px;
+  background: rgba(201, 162, 74, 0.05);
+  border: 1px solid rgba(201, 162, 74, 0.25);
+  border-radius: 4px;
+  transition: background 0.3s ease, border-color 0.3s ease;
+}
+
+.flow__step:hover {
+  background: rgba(201, 162, 74, 0.09);
+  border-color: rgba(201, 162, 74, 0.4);
+}
+
+.flow__step-icon {
+  font-size: 22px;
+  color: var(--gold);
+  flex-shrink: 0;
+  width: 36px;
+  text-align: center;
+  line-height: 1;
+}
+
+.flow__step-body {
+  color: var(--parchment);
+  line-height: 1.65;
+  font-size: 15px;
+  letter-spacing: 0.01em;
+}
+
+.flow__arrow {
+  color: var(--gold-deep);
+  text-align: left;
+  font-size: 12px;
+  opacity: 0.55;
+  line-height: 1;
+  padding-left: 25px;
+  margin: 0;
+}
+
+.flow__step--terminal {
+  background: linear-gradient(135deg, rgba(217, 109, 58, 0.1) 0%, rgba(139, 58, 58, 0.08) 100%);
+  border-color: rgba(217, 109, 58, 0.4);
+}
+
+.flow__step--terminal .flow__step-icon {
+  color: var(--ember);
+}
+
+.flow__step--terminal .flow__step-body {
+  color: var(--gold-light);
+  font-weight: 500;
+}
+
+@media (max-width: 768px) {
+  .flow__step { padding: 12px 14px; gap: 12px; }
+  .flow__step-icon { font-size: 20px; width: 28px; }
+  .flow__step-body { font-size: 14px; }
+  .flow__arrow { padding-left: 18px; }
+}
+
 /* --- Important badge --- */
 .important-badge {
   display: inline-block;
@@ -1111,15 +1188,45 @@ function render() {
         heading.className = 'subsection__heading';
         heading.textContent = getText(sub.heading);
         subEl.appendChild(heading);
-        const ul = document.createElement('ul');
-        ul.className = 'rules-list';
-        sub.rules.forEach(rule => {
-          const li = document.createElement('li');
-          if (rule.note) li.classList.add('note');
-          li.textContent = getText(rule);
-          ul.appendChild(li);
-        });
-        subEl.appendChild(ul);
+
+        if (sub.rules) {
+          const ul = document.createElement('ul');
+          ul.className = 'rules-list';
+          sub.rules.forEach(rule => {
+            const li = document.createElement('li');
+            if (rule.note) li.classList.add('note');
+            li.textContent = getText(rule);
+            ul.appendChild(li);
+          });
+          subEl.appendChild(ul);
+        }
+
+        if (sub.flow) {
+          const flowEl = document.createElement('div');
+          flowEl.className = 'flow';
+          sub.flow.forEach((step, i) => {
+            if (i > 0) {
+              const arrow = document.createElement('div');
+              arrow.className = 'flow__arrow';
+              arrow.setAttribute('aria-hidden', 'true');
+              arrow.textContent = '▼';
+              flowEl.appendChild(arrow);
+            }
+            const stepEl = document.createElement('div');
+            stepEl.className = 'flow__step' + (step.terminal ? ' flow__step--terminal' : '');
+            const iconEl = document.createElement('div');
+            iconEl.className = 'flow__step-icon';
+            iconEl.textContent = step.icon || '•';
+            const bodyEl = document.createElement('div');
+            bodyEl.className = 'flow__step-body';
+            bodyEl.textContent = getText(step.label);
+            stepEl.appendChild(iconEl);
+            stepEl.appendChild(bodyEl);
+            flowEl.appendChild(stepEl);
+          });
+          subEl.appendChild(flowEl);
+        }
+
         chapter.appendChild(subEl);
       });
     } else if (section.rules) {

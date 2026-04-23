@@ -369,29 +369,151 @@ const ISEKAI_CONTENT = {
       number: "VII",
       icon: "⛔",
       title: {
-        ja: "その他禁止事項",
-        en: "Other Prohibited Acts",
-        zh: "其他禁止事项",
-        vi: "Các hành vi bị cấm khác"
+        ja: "禁止事項と運営の対応",
+        en: "Prohibited Acts & Enforcement",
+        zh: "禁止事项与运营处理",
+        vi: "Hành vi bị cấm & xử lý vận hành"
       },
       lead: {
-        ja: "サーバーの土台を壊す行為は、誰のためにもなりません。ここは線引きをはっきり。",
-        en: "Some lines exist to protect everyone — these are non-negotiable.",
-        zh: "破坏服务器根基的行为对任何人都没有好处。此处的界线不容含糊。",
-        vi: "Một số ranh giới tồn tại để bảo vệ tất cả mọi người — không thể thương lượng."
+        ja: "サーバーの土台を壊す行為は、誰のためにもなりません。ここは線引きをはっきりさせつつ、違反を見かけたときの流れも、わかりやすくまとめておきます。",
+        en: "Some lines exist to protect everyone — these are non-negotiable. Below is how reports are handled, step by step.",
+        zh: "破坏服务器根基的行为对任何人都没有好处。此处的界线不容含糊，并清晰说明发现违规时的处理流程。",
+        vi: "Một số ranh giới tồn tại để bảo vệ tất cả mọi người — không thể thương lượng. Dưới đây là quy trình xử lý khi phát hiện vi phạm."
       },
-      rules: [
+      subsections: [
         {
-          ja: "RMT（リアルマネートレード）を行う、または試みる行為は禁止です。",
-          en: "Real-money trading (RMT), and any attempt to engage in it, is prohibited.",
-          zh: "禁止进行或尝试真实货币交易（RMT）。",
-          vi: "Nghiêm cấm giao dịch tiền thật (RMT) cũng như mọi nỗ lực thực hiện."
+          heading: {
+            ja: "RMT・チートツール",
+            en: "RMT & Cheat Tools",
+            zh: "RMT 与作弊工具",
+            vi: "RMT & công cụ cheat"
+          },
+          rules: [
+            {
+              ja: "RMT（リアルマネートレード）を行う、または試みる行為は禁止です。",
+              en: "Real-money trading (RMT), and any attempt to engage in it, is prohibited.",
+              zh: "禁止进行或尝试真实货币交易（RMT）。",
+              vi: "Nghiêm cấm giao dịch tiền thật (RMT) cũng như mọi nỗ lực thực hiện."
+            },
+            {
+              ja: "チートツール等を用いた不正行為は、いかなる形でも禁止です。",
+              en: "Cheat tools and any form of unauthorized exploitation are strictly forbidden.",
+              zh: "严禁使用外挂工具等任何形式的作弊行为。",
+              vi: "Nghiêm cấm mọi hình thức gian lận bằng công cụ cheat hay thao tác trái phép."
+            }
+          ],
+          flow: [
+            {
+              icon: "👁",
+              label: {
+                ja: "プレイヤーが発見",
+                en: "A player spots a violation",
+                zh: "玩家发现违规",
+                vi: "Người chơi phát hiện vi phạm"
+              }
+            },
+            {
+              icon: "📹",
+              label: {
+                ja: "動画を添えて Discord チケットで通報",
+                en: "Report via Discord ticket with video evidence",
+                zh: "附上录像，通过 Discord 工单举报",
+                vi: "Gửi phiếu báo cáo trên Discord kèm video"
+              }
+            },
+            {
+              icon: "⚖",
+              label: {
+                ja: "運営が確認・判断",
+                en: "Admins review and decide",
+                zh: "运营确认并做出判断",
+                vi: "Đội vận hành xác minh và quyết định"
+              }
+            },
+            {
+              icon: "⚠",
+              label: {
+                ja: "1回目：ゲーム内チャットで警告",
+                en: "1st offense: Warning in in-game chat",
+                zh: "第一次：游戏内聊天中发出警告",
+                vi: "Lần 1: Cảnh cáo trong chat trò chơi"
+              }
+            },
+            {
+              icon: "⛔",
+              terminal: true,
+              label: {
+                ja: "2回目：BAN",
+                en: "2nd offense: Ban",
+                zh: "第二次：封禁（BAN）",
+                vi: "Lần 2: Cấm tài khoản (BAN)"
+              }
+            }
+          ]
         },
         {
-          ja: "チートツール等を用いた不正行為は、いかなる形でも禁止です。",
-          en: "Cheat tools and any form of unauthorized exploitation are strictly forbidden.",
-          zh: "严禁使用外挂工具等任何形式的作弊行为。",
-          vi: "Nghiêm cấm mọi hình thức gian lận bằng công cụ cheat hay thao tác trái phép."
+          heading: {
+            ja: "チャット上の暴言・差別",
+            en: "Chat Abuse & Discrimination",
+            zh: "聊天中的辱骂与歧视",
+            vi: "Lăng mạ & phân biệt đối xử trên chat"
+          },
+          rules: [
+            {
+              ja: "チャットでの煽り、罵声、差別発言は容認しません。",
+              en: "Taunting, verbal abuse, and discriminatory language in chat will not be tolerated.",
+              zh: "绝不容忍聊天中的挑衅、辱骂与歧视言论。",
+              vi: "Không dung thứ hành vi khiêu khích, lăng mạ và ngôn từ phân biệt đối xử trong chat."
+            }
+          ],
+          flow: [
+            {
+              icon: "👁",
+              label: {
+                ja: "チャットで見かける",
+                en: "Witnessed in chat",
+                zh: "在聊天中发现",
+                vi: "Chứng kiến trong chat"
+              }
+            },
+            {
+              icon: "🎫",
+              label: {
+                ja: "Discord チケットで通報",
+                en: "Report via Discord ticket",
+                zh: "通过 Discord 工单举报",
+                vi: "Gửi phiếu báo cáo trên Discord"
+              }
+            },
+            {
+              icon: "⚖",
+              label: {
+                ja: "運営が確認・判断",
+                en: "Admins review and decide",
+                zh: "运营确认并做出判断",
+                vi: "Đội vận hành xác minh và quyết định"
+              }
+            },
+            {
+              icon: "💬",
+              label: {
+                ja: "1回目：警告＋話し合いの場を設ける",
+                en: "1st offense: Warning, plus a mediated discussion",
+                zh: "第一次：警告，并安排双方对话",
+                vi: "Lần 1: Cảnh cáo và tổ chức cuộc nói chuyện hòa giải"
+              }
+            },
+            {
+              icon: "⛔",
+              terminal: true,
+              label: {
+                ja: "収拾がつかない場合：チャットBANを検討",
+                en: "If unresolved: Chat ban under consideration",
+                zh: "若无法收场：考虑聊天封禁",
+                vi: "Nếu không giải quyết được: xem xét cấm chat"
+              }
+            }
+          ]
         }
       ]
     }
