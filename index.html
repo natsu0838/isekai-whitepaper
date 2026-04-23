@@ -808,6 +808,20 @@ html[data-lang="vi"] .subsection__heading {
   font-weight: 500;
 }
 
+.flow__step--appeal {
+  background: linear-gradient(135deg, rgba(107, 142, 90, 0.1) 0%, rgba(74, 107, 138, 0.08) 100%);
+  border-color: rgba(107, 142, 90, 0.4);
+  border-style: dashed;
+}
+
+.flow__step--appeal .flow__step-icon {
+  color: var(--moss);
+}
+
+.flow__step--appeal .flow__step-body {
+  color: var(--parchment);
+}
+
 @media (max-width: 768px) {
   .flow__step { padding: 12px 14px; gap: 12px; }
   .flow__step-icon { font-size: 20px; width: 28px; }
@@ -1213,7 +1227,9 @@ function render() {
               flowEl.appendChild(arrow);
             }
             const stepEl = document.createElement('div');
-            stepEl.className = 'flow__step' + (step.terminal ? ' flow__step--terminal' : '');
+            stepEl.className = 'flow__step'
+              + (step.terminal ? ' flow__step--terminal' : '')
+              + (step.appeal ? ' flow__step--appeal' : '');
             const iconEl = document.createElement('div');
             iconEl.className = 'flow__step-icon';
             iconEl.textContent = step.icon || '•';

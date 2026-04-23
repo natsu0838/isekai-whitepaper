@@ -431,22 +431,23 @@ const ISEKAI_CONTENT = {
               }
             },
             {
-              icon: "⚠",
-              label: {
-                ja: "1回目：ゲーム内チャットで警告",
-                en: "1st offense: Warning in in-game chat",
-                zh: "第一次：游戏内聊天中发出警告",
-                vi: "Lần 1: Cảnh cáo trong chat trò chơi"
-              }
-            },
-            {
               icon: "⛔",
               terminal: true,
               label: {
-                ja: "2回目：BAN",
-                en: "2nd offense: Ban",
-                zh: "第二次：封禁（BAN）",
-                vi: "Lần 2: Cấm tài khoản (BAN)"
+                ja: "確定後：警告なしで即BAN",
+                en: "Once confirmed: Immediate ban (no warning)",
+                zh: "确认后：不经警告直接封禁（BAN）",
+                vi: "Sau khi xác nhận: cấm tài khoản ngay (không cảnh báo)"
+              }
+            },
+            {
+              icon: "📮",
+              appeal: true,
+              label: {
+                ja: "不服・認識の誤りがあれば、プレイヤー自身が Discord チケットで連絡 → 解除も検討",
+                en: "Disputes or mistaken identity? The player themselves opens a Discord ticket — unban is considered case by case.",
+                zh: "若有异议或认知错误，请玩家本人通过 Discord 工单联系 — 将酌情考虑解封。",
+                vi: "Nếu có khiếu nại hoặc nhầm lẫn, người chơi tự mở phiếu Discord — việc gỡ cấm sẽ được xem xét tùy trường hợp."
               }
             }
           ]
