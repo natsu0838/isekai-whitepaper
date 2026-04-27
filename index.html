@@ -166,6 +166,9 @@ body::after {
 }
 
 .topbar__brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
   font-family: var(--font-display);
   letter-spacing: 0.4em;
   font-size: 13px;
@@ -178,18 +181,21 @@ body::after {
   transition: color 0.3s ease;
 }
 
-.topbar__brand::before {
-  content: '◈ ';
-  color: var(--gold-deep);
-  transition: color 0.3s ease;
+.topbar__brand-logo {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+  filter: drop-shadow(0 0 8px rgba(201, 162, 74, 0.3));
+  transition: filter 0.3s ease, transform 0.3s ease;
 }
 
 .topbar__brand:hover {
   color: var(--gold-light);
 }
 
-.topbar__brand:hover::before {
-  color: var(--gold);
+.topbar__brand:hover .topbar__brand-logo {
+  filter: drop-shadow(0 0 14px rgba(201, 162, 74, 0.55));
+  transform: scale(1.05);
 }
 
 .topbar__actions {
@@ -376,20 +382,19 @@ a.topbar__social-link:hover {
 }
 
 .hero__server-name {
-  font-family: var(--font-display);
-  font-size: clamp(72px, 14vw, 180px);
-  font-weight: 700;
-  letter-spacing: 0.15em;
-  color: var(--parchment);
-  line-height: 1;
-  margin-bottom: 24px;
+  display: block;
+  margin: 0 auto 24px;
   opacity: 0;
   animation: fadeUp 1.4s ease 0.6s forwards;
-  background: linear-gradient(180deg, var(--parchment) 0%, var(--vellum) 50%, var(--gold) 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  text-shadow: 0 4px 30px rgba(201, 162, 74, 0.2);
+}
+
+.hero__logo {
+  display: block;
+  width: clamp(260px, 50vw, 540px);
+  max-width: 100%;
+  height: auto;
+  margin: 0 auto;
+  filter: drop-shadow(0 12px 50px rgba(201, 162, 74, 0.28));
 }
 
 .hero__title {
@@ -1098,7 +1103,8 @@ a.footer__social-link:hover {
 @media (max-width: 768px) {
   body { font-size: 15px; }
   .topbar { padding: 14px 16px; gap: 10px; }
-  .topbar__brand { font-size: 10px; letter-spacing: 0.2em; }
+  .topbar__brand { font-size: 10px; letter-spacing: 0.2em; gap: 6px; }
+  .topbar__brand-logo { width: 22px; height: 22px; }
   .topbar__actions { gap: 8px; }
   .topbar__social { gap: 4px; }
   .topbar__social-link { width: 28px; height: 28px; }
@@ -1149,7 +1155,10 @@ a.footer__social-link:hover {
 
 <!-- Top bar -->
 <header class="topbar">
-  <button type="button" class="topbar__brand" onclick="scrollToTop()" aria-label="Scroll to top">ISEKAI · LEGEND OF YMIR</button>
+  <button type="button" class="topbar__brand" onclick="scrollToTop()" aria-label="Scroll to top">
+    <img src="assets/logo.png" alt="" class="topbar__brand-logo" aria-hidden="true">
+    <span>ISEKAI · LEGEND OF YMIR</span>
+  </button>
   <div class="topbar__actions">
     <div class="topbar__social">
       <a href="https://x.com/ISEKAIofYMIR" target="_blank" rel="noopener" class="topbar__social-link" aria-label="X (Twitter) — @ISEKAIofYMIR">
@@ -1183,7 +1192,9 @@ a.footer__social-link:hover {
 <section class="hero">
   <div class="hero__rune-frame">ᚨ &nbsp; ᛁ &nbsp; ᛋ &nbsp; ᛖ &nbsp; ᚲ &nbsp; ᚨ &nbsp; ᛁ</div>
   <div class="hero__eyebrow" data-key="header.eyebrow"></div>
-  <h1 class="hero__server-name">ISEKAI</h1>
+  <h1 class="hero__server-name">
+    <img src="assets/logo.png" alt="ISEKAI · YMIR" class="hero__logo">
+  </h1>
   <div class="hero__title" data-key="header.title"></div>
   <div class="hero__divider"></div>
   <p class="hero__subtitle" data-key="header.subtitle"></p>
